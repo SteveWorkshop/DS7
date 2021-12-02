@@ -18,6 +18,11 @@ BinTree BuildTree(); /* details omitted */
 BinTree InsertInto(BinTree T, int X);
 int KthLargest(BinTree T, int X);
 
+struct TNode* FindMin(BinTree T);
+struct TNode* FindMax(BinTree T);
+BinTree DeleteFrom(BinTree T, int X);
+
+
 BinTree InsertInto(BinTree T, int X)
 {
     if (!T)
@@ -44,23 +49,6 @@ BinTree BuildTree()
     b->Right = BuildTree();
     return b;
 }
-
-int main()
-{
-    BinTree T;
-    int X;
-
-    T = BuildTree();
-    scanf("%d", &X);
-    printf("%d", KthLargest(T, X));
-
-    return 0;
-}
-/* Your function will be put here */
-
-struct TNode* FindMin(BinTree T);
-struct TNode* FindMax(BinTree T);
-BinTree DeleteFrom(BinTree T, int X);
 
 struct TNode* FindMin(BinTree T)
 {
@@ -114,16 +102,35 @@ BinTree DeleteFrom(BinTree T, int X)
     return T;
 }
 
+int main()
+{
+    BinTree T;
+    int X;
+
+    T = BuildTree();
+    scanf("%d", &X);
+    printf("%d", KthLargest(T, X));
+
+    return 0;
+}
+/* Your function will be put here */
+
+void _KthLargest(BinTree T, int X, int* a)
+{
+    static int cnt = 0;
+    if (!T) { return; }
+    _KthLargest(T->Right, X, a);
+    cnt++;
+    if (T->Key == X) { *a = cnt; }
+    _KthLargest(T->Left, X, a);
+
+}
+
 int KthLargest(BinTree T, int X)
 {
-    BinTree p;
-    int cnt = 0;
-    while ((p = FindMax(T)) != NULL && p->Key != X)
-    {
-        T = DeleteFrom(T, p->Key);
-    }
-    if (!p) { return 0; }
-    return cnt + 1;
+    int a = 0;
+    _KthLargest(T, X, &a);
+    return a;
 }
 // 运行程序: Ctrl + F5 或调试 >“开始执行(不调试)”菜单
 // 调试程序: F5 或调试 >“开始调试”菜单

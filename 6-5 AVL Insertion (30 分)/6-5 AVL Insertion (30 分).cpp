@@ -65,7 +65,15 @@ int main()
 }
 /* Your function will be put here */
 
-#define MY_MAX(a, b) ((a) > (b)) ? (a) : (b)
+//#define MY_MAX(a, b) ((a) > (b)) ? (a) : (b)
+//血泪教训：没事别写这种奇奇怪怪的东西。。。
+//另求大佬帮看上面这句话有什么问题。。。
+
+int MY_MAX(int a, int b)
+{
+    if (a > b) { return a; }
+    return b;
+}
 
 int getHight(PtrToAVLNode root)
 {
